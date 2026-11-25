@@ -107,7 +107,7 @@
                 Privacy Policy
               </h1>
               <p class="text-buzz-muted font-light mb-8 tracking-tighter">
-                Last updated: March 9, 2026
+                Last updated: November 25, 2026
               </p>
 
               <div class="prose prose-gray max-w-none">
@@ -301,11 +301,7 @@
                   Usage Data is collected automatically when using the Service.
                 </p>
                 <p class="text-buzz-text font-light tracking-tighter mb-4">
-                  Usage Data may include information such as Your Device type,
-                  operating system, unique device identifiers, crash
-                  information, in‑app events, and other diagnostic data that
-                  help Us understand how the Service is used and how it
-                  performs.
+                  Usage Data may include information such as Your Device type, operating system, unique device identifiers, crash information, in‑app events (for example, which screens You view and which features You use), and other diagnostic data that help Us understand how the Service is used and how it performs. We may also derive an approximate location (such as Your country and city) from Your IP address for analytics. We do not use this data for advertising, and We do not use it to track You across other companies' apps or websites.
                 </p>
                 <p class="text-buzz-text font-light tracking-tighter mb-6">
                   This data is used to maintain and improve the stability,
@@ -331,7 +327,7 @@
                     Google
                   </li>
                   <li class="text-buzz-text font-light tracking-tighter">
-                    Email and password (direct sign‑up and login)
+                    Email and password (available in earlier versions of the App)
                   </li>
                 </ul>
 
@@ -467,13 +463,13 @@
                     features.
                   </li>
                   <li class="text-buzz-text font-light tracking-tighter">
-                    <strong>Superwall</strong> – Displays paywalls and
-                    subscription offers inside the App.
+                    <strong>Superwall</strong> – Displays paywalls and subscription offers inside the App. Superwall also receives the plan You chose (Cold Turkey or Gradual), when You finished setting up the App and how many days ago that was, and where You heard about Buzz Off. We use these to personalise and test Our subscription screens. They are removed from Your Device when You sign out.
                   </li>
                   <li class="text-buzz-text font-light tracking-tighter">
-                    <strong>Sentry</strong> – Collects crash reports and
-                    diagnostic information to help Us improve stability and fix
-                    bugs.
+                    <strong>Sentry</strong> – Collects crash reports and diagnostic information to help Us improve stability and fix bugs.
+                  </li>
+                  <li class="text-buzz-text font-light tracking-tighter">
+                    <strong>PostHog</strong> – Collects in‑app usage events (for example, screens viewed and features used) and an approximate location derived from Your IP address, linked to Your account ID, to help Us understand how the App is used and improve it.
                   </li>
                   <li class="text-buzz-text font-light tracking-tighter">
                     <strong>Expo / EAS</strong> – Helps deliver app updates and
@@ -488,9 +484,7 @@
                     related authentication infrastructure.
                   </li>
                   <li class="text-buzz-text font-light tracking-tighter">
-                    <strong>Resend</strong> – May be used to send transactional
-                    emails such as account deletion confirmations, when
-                    required.
+                    <strong>Resend</strong> – Sends transactional emails, such as account deletion confirmations.
                   </li>
                   <li class="text-buzz-text font-light tracking-tighter">
                     <strong>Google Analytics</strong> – Collects anonymous usage
@@ -526,10 +520,7 @@
                 </p>
                 <ul class="space-y-2 mb-6">
                   <li class="text-buzz-text font-light tracking-tighter">
-                    Account and profile data are retained while Your Account is
-                    active. If You request deletion of Your Account, We will
-                    delete or anonymize Your Personal Data, subject to any legal
-                    obligations to retain certain records.
+                    Account and profile data are retained while Your Account is active. See “Deleting Your Account” below for what happens when You delete it.
                   </li>
                   <li class="text-buzz-text font-light tracking-tighter">
                     Daily check‑ins and caffeine logs are retained for as long
@@ -542,6 +533,38 @@
                     their policies.
                   </li>
                 </ul>
+
+                <h2
+                  class="text-2xl font-medium text-buzz-text mb-4 tracking-tighter"
+                >
+                  Deleting Your Account
+                </h2>
+                <p class="text-buzz-text font-light tracking-tighter mb-4">
+                  You can delete Your Account at any time in the App: Profile → Delete Account. If You haven't finished setting up, use the “Account” link at the top of the setup screens. When You delete Your Account, We immediately and permanently delete Your profile, Your check‑ins, caffeine logs and notes, Your achievements, reminders and notification settings, any feedback You sent from the App, Your profile photo and Your sign‑in account. If You signed in with Apple, We also ask Apple to disconnect Buzz Off from Your Apple ID (in version 2.0.5 and later of the App). We then send a confirmation to Your email address.
+                </p>
+                <p class="text-buzz-text font-light tracking-tighter mb-4">
+                  We also ask Our Service Providers to delete their copies. RevenueCat, which manages subscriptions, deletes Your customer record. Superwall, which shows Our subscription screens, deletes Your data 25 days after Our request, keeping only anonymous revenue records.
+                </p>
+                <p class="text-buzz-text font-light tracking-tighter mb-4">
+                  <strong>What deleting doesn't do.</strong> Deleting Your Account doesn't cancel an App Store subscription. Cancel it in iOS Settings → Your name → Subscriptions, or Apple will keep charging You. Apple keeps its own records of Your purchases.
+                </p>
+                <p class="text-buzz-text font-light tracking-tighter mb-4">
+                  <strong>What We keep.</strong> Some copies stay for a limited time and are then removed automatically:
+                </p>
+                <ul class="space-y-2 mb-4">
+                  <li class="text-buzz-text font-light tracking-tighter">
+                    Analytics events (PostHog) and error reports (Sentry), which are linked to Your account ID, until each provider's retention period ends.
+                  </li>
+                  <li class="text-buzz-text font-light tracking-tighter">
+                    Email delivery logs (Resend).
+                  </li>
+                  <li class="text-buzz-text font-light tracking-tighter">
+                    Our database backups, until they roll off.
+                  </li>
+                </ul>
+                <p class="text-buzz-text font-light tracking-tighter mb-6">
+                  Messages You sent to Our support inbox are kept so We can answer support questions. To ask about any of this, email support@buzzoffapp.com.
+                </p>
 
                 <h2
                   class="text-2xl font-medium text-buzz-text mb-4 tracking-tighter"
@@ -559,10 +582,7 @@
                     certain profile information directly in the App.
                   </li>
                   <li class="text-buzz-text font-light tracking-tighter">
-                    <strong>Delete Your Account</strong> – You can request
-                    deletion of Your Account from within the App. When You
-                    delete Your Account, We will delete or anonymize associated
-                    data, subject to legal obligations.
+                    <strong>Delete Your Account</strong> – You can delete Your Account at any time in the App (Profile → Delete Account). See “Deleting Your Account” above for what is deleted and what is kept.
                   </li>
                   <li class="text-buzz-text font-light tracking-tighter">
                     <strong>Export</strong> – Certain parts of Your data (for
