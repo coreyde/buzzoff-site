@@ -17,6 +17,11 @@ Checks every published .html page (what build-pages.sh copies into public/):
 - header and footer are identical on every page (campaign code aside)
 - canonicals are each page's final URL; sitemap.xml lists every indexable
   page's canonical, and nothing else; llms.txt links resolve without redirects
+- numbered citations: every <sup class="cite"> [n] links to #src-n with an
+  aria-label "Source n: ...", numbers first appear in order 1, 2, 3...,
+  the first use has id="cite-n", the Sources list is src-1..src-N in that
+  order with a back link to #cite-n, every source is cited, no old-style
+  (Author, Year) a.cite links, and no [n] inside JSON-LD
 - WARN while a guide still says it's awaiting Corey's review
 - WARN where body text splits a number and its unit with a plain space
   (the site writes 95&nbsp;mg; legal page bodies are left as they are)
@@ -43,6 +48,11 @@ STORE_RE = re.compile(
 )
 
 OTHER_STORE_RE = re.compile(r"^https://apps\.apple\.com/app/id\d+$")
+
+CITE_RE = re.compile(
+    r'<sup class="cite"(?: id="cite-(\d+)")?><a href="#src-(\d+)" aria-label="([^"]*)">\[(\d+)\]</a></sup>'
+)
+SRC_LI_RE = re.compile(r'<li id="src-([^"]+)">(.*?)</li>', re.S)
 
 errors, warnings = [], []
 UNIT_SPLIT = re.compile(
@@ -127,6 +137,51 @@ def pages():
                 yield os.path.relpath(os.path.join(dirpath, f), ROOT)
 
 
+def check_citations(rel, src, jsonld):
+    """Numbered citations: [n] -> #src-n, first-use order, Sources list in that order."""
+    if '<a class="cite"' in src:
+        err(rel, 'old-style (Author, Year) citation link (a.cite): use <sup class="cite"> [n]')
+    if src.count('<sup class="cite"') != len(CITE_RE.findall(src)):
+        err(rel, 'malformed <sup class="cite">: want <sup class="cite"><a href="#src-n" aria-label="Source n: ...">[n]</a></sup>')
+    first_use = []
+    for m in CITE_RE.finditer(src):
+        cid, href_n, label, text_n = m.groups()
+        if href_n != text_n:
+            err(rel, f"citation [{text_n}] links to #src-{href_n}")
+        if not label.startswith(f"Source {text_n}: ") or len(label) <= len(f"Source {text_n}: "):
+            err(rel, f'citation [{text_n}] aria-label should read "Source {text_n}: <author, year>": {label!r}')
+        n = int(href_n)
+        if n not in first_use:
+            first_use.append(n)
+            if cid != str(n):
+                err(rel, f'first citation of [{n}] needs id="cite-{n}"')
+        elif cid:
+            err(rel, f'id="cite-{n}" belongs on the first citation of [{n}] only')
+    if first_use != list(range(1, len(first_use) + 1)):
+        err(rel, f"citations aren't numbered in order of first use: {first_use}")
+    sec = re.search(r'<section class="sources".*?</section>', src, re.S)
+    listed = []
+    if sec:
+        for key, inner in SRC_LI_RE.findall(sec.group(0)):
+            if not key.isdigit():
+                err(rel, f'source id "src-{key}" should be src-<n>')
+                continue
+            listed.append(int(key))
+            if f'class="src-back" href="#cite-{key}"' not in inner:
+                err(rel, f'source {key} has no back link (<a class="src-back" href="#cite-{key}">)')
+    elif first_use:
+        err(rel, "citations but no Sources list")
+    if listed != list(range(1, len(listed) + 1)):
+        err(rel, f"Sources list isn't src-1..src-{len(listed)} in order: {listed}")
+    for n in sorted(set(first_use) - set(listed)):
+        err(rel, f"[{n}] points to a source that isn't in the Sources list")
+    for n in sorted(set(listed) - set(first_use)):
+        err(rel, f"source {n} is never cited")
+    for block_src in jsonld:
+        if re.search(r"\[\d+\]", block_src):
+            err(rel, "JSON-LD contains a [n] citation marker (keep it plain text)")
+
+
 def block(src, start_pat, end_pat):
     m = re.search(start_pat + r".*?" + end_pat, src, re.S)
     return re.sub(r"ct=web-[a-z]+", "ct=X", m.group(0)) if m else None
@@ -207,6 +262,7 @@ def main():
                 err(rel, f"img without alt: {img.get('src')}")
             if not (img.get("width") and img.get("height")):
                 err(rel, f"img without width/height: {img.get('src')}")
+        check_citations(rel, src, p.jsonld)
         for block_src in p.jsonld:
             try:
                 json.loads(block_src)
