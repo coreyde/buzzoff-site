@@ -224,10 +224,19 @@ function calculator(root) {
     const total = Math.min(rows.reduce((s, r) => s + r.mg * r.count, 0), MAX_MG * 50);
     out.textContent = `About ${formatMg(total)} today`;
     const n = rows.reduce((s, r) => s + r.count, 0);
-    detail.textContent =
-      n > 0
-        ? `From ${count.format(n)} ${n === 1 ? "drink" : "drinks"}, using the figures in the table below or the mg you entered.`
-        : "Add a drink to see your total.";
+    if (n > 0) {
+      // Name and link the section with the figures: a positional "table" reference read as the drink rows.
+      const link = document.createElement("a");
+      link.href = "#how-it-works";
+      link.textContent = "How this is worked out";
+      detail.replaceChildren(
+        `From ${count.format(n)} ${n === 1 ? "drink" : "drinks"}, using the figures in `,
+        link,
+        ", or the mg you entered."
+      );
+    } else {
+      detail.textContent = "Add a drink to see your total.";
+    }
   }
   update();
 }
@@ -335,7 +344,7 @@ function wearOff(root) {
     svg.setAttribute("role", "img");
     svg.setAttribute(
       "aria-label",
-      `Estimated caffeine in your body over 24${NBSP}hours from ${formatClock(from)}, for half-lives of ${HALF_LIVES.map((h) => formatHours(h.h)).join(", ")}. The table below gives the bedtime figures.`
+      `Estimated caffeine in your body over 24${NBSP}hours from ${formatClock(from)}, for half-lives of ${HALF_LIVES.map((h) => formatHours(h.h)).join(", ")}. The table “Caffeine that may be left at bedtime” gives the bedtime figures.`
     );
     const add = (tag, attrs, text) => {
       const n = document.createElementNS(SVG_NS, tag);

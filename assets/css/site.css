@@ -281,6 +281,13 @@ textarea {
   letter-spacing: var(--track-heading);
   padding-block: var(--s2);
 }
+.brand {
+  flex-shrink: 0; /* the icon never gets squeezed */
+}
+.brand span,
+.site-nav a {
+  white-space: nowrap; /* "Buzz Off" and "Get the app" never break onto two lines */
+}
 .brand img {
   width: 32px;
   height: 32px;
@@ -1028,8 +1035,46 @@ textarea {
   text-decoration: underline;
   text-underline-offset: 0.15em;
 }
-.guide-body a.cite {
+/* Numbered citations: [1] raised without changing line spacing. */
+sup.cite {
+  position: relative;
+  top: -0.5em;
+  vertical-align: baseline;
+  font-size: 0.75em;
+  line-height: 0;
   white-space: nowrap;
+  scroll-margin-top: var(--s16);
+}
+.guide-body sup.cite a[href],
+sup.cite a[href] {
+  position: relative;
+  color: var(--orange-ink);
+  text-decoration: none;
+  border-radius: 2px;
+}
+.guide-body sup.cite a[href]:hover,
+.guide-body sup.cite a[href]:focus-visible,
+sup.cite a[href]:hover,
+sup.cite a[href]:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+sup.cite a[href]:focus-visible {
+  outline: 2px solid var(--orange-ink);
+  outline-offset: 1px;
+}
+/* Tap target: 24px tall and exactly as wide as its own [n], so adjacent [1][3] touch but never overlap. */
+sup.cite a[href]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 24px;
+  transform: translateY(-50%);
+}
+sup.cite:target a[href] {
+  background: var(--orange-tint);
 }
 .table-wrap {
   overflow-x: auto;
@@ -1105,6 +1150,20 @@ textarea {
 .sources a {
   overflow-wrap: anywhere;
 }
+.guide-body .sources a.src-back,
+.sources a.src-back {
+  margin-left: var(--s1);
+  color: var(--text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.guide-body .sources a.src-back:hover,
+.guide-body .sources a.src-back:focus-visible,
+.sources a.src-back:hover,
+.sources a.src-back:focus-visible {
+  color: var(--orange-ink);
+  text-decoration: underline;
+}
 .sources li:target {
   background: var(--orange-tint);
   border-radius: var(--r-sm);
@@ -1175,8 +1234,9 @@ textarea {
   margin-bottom: var(--s4);
 }
 
-/* Narrow phones: keep the header on one line (the icon still links home). */
-@media (max-width: 399px) {
+/* Phones: keep the header on one line (the icon still links home). The full header
+   ("Buzz Off" + nav) needs 440px with no slack, so the name hides below 460px. */
+@media (max-width: 459px) {
   .brand span {
     position: absolute;
     width: 1px;
@@ -1187,6 +1247,18 @@ textarea {
   }
   .site-nav {
     gap: var(--s3);
+  }
+}
+/* Smallest phones (320px): tighter gaps and button padding so the nav still fits. */
+@media (max-width: 359px) {
+  .site-header__inner {
+    gap: var(--s1);
+  }
+  .site-nav {
+    gap: var(--s2);
+  }
+  .site-nav .btn {
+    padding-inline: var(--s3);
   }
 }
 .review-pending {
@@ -1300,7 +1372,15 @@ textarea {
   font-size: 1rem;
 }
 .field select {
-  padding-right: var(--s2);
+  -webkit-appearance: none;
+  appearance: none;
+  /* Our own chevron (WebKit and Blink draw theirs flush to the edge): 12px wide, 14px from the right, centred. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%232B2B2B' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 12px 8px;
+  padding-right: 40px; /* 14px gap + 12px chevron + 14px clear of the text */
+  text-overflow: ellipsis;
 }
 .field input:disabled {
   background: var(--card);
