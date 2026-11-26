@@ -16,9 +16,14 @@ The redesign and SEO brief is `.claude/docs/website-brief.md`: read it before pl
 ## Stack
 
 - Plain HTML pages, no build step, no `package.json`.
-- Tailwind via the CDN script (`cdn.tailwindcss.com`) with an inline `tailwind.config` per page (the `buzz` colours: bg `#FAF7F2`, card `#EEE7DF`, border `#D6CEC5`, text `#2B2B2B`). Inter from Google Fonts.
-- Google Analytics `G-HC8N876HCR` (gtag) on every page; the App Store badge fires `app_store_click`.
-- Head, header and footer are copied into each page by hand. Keep them identical across pages.
+- Hand-written CSS: `assets/css/site.css` (design tokens from the app's `constants/theme.ts` as CSS variables, plus components). `assets/css/legal.css` reproduces the Tailwind utilities the legal pages' bodies still use, so their markup never has to change. No Tailwind, no CDN.
+- Inter is self-hosted (`assets/fonts/inter-latin-var.woff2`, OFL). No Google Fonts request.
+- Colour rules for AA: orange `#E59F42` is a fill only (text on it is `#2B2B2B`); links use `--orange-ink`; muted text on cards uses `--text-muted-card`.
+- Google Analytics `G-HC8N876HCR` (gtag) on every page. `assets/js/site.js` sends `app_store_click` with a `placement` parameter for every `a.appstore[data-placement]`. Nothing a visitor types (tool inputs) ever goes to GA, the URL or the console.
+- App Store links are static campaign links: `https://apps.apple.com/app/apple-store/id6746517769?pt=127836285&ct=<code>&mt=8`, with page-level codes only (Apple needs 5 installs per code to show it): `web-home`, `web-guides`, `web-tools`, `web-compare`, `web-other` (FAQ, About, 404, legal, contact).
+- Head, header and footer are copied into each page by hand from `.claude/templates/partials.html`. Keep them identical across pages; the checker fails if they differ.
+- Local tools (stdlib/none to install): `python3 .claude/scripts/serve.py` (preview server that resolves URLs like Pages), `python3 .claude/scripts/check-site.py` (pre-push checks), `sh .claude/og/render.sh` (OG images via headless Chrome).
+- `.claude/docs/` is git-ignored: strategy docs (the brief, plans) stay on Corey's Mac because the repo is public.
 
 ## Pages and links that must keep working
 
@@ -69,8 +74,8 @@ The site follows the app's house style (`~/Desktop/buzzoff-final/docs/HEALTH-COP
 
 - One session per task, **plan mode first**; wait for Corey's approval before changing files.
 - One branch per task (`feat/...`, `fix/...`, `chore/...`), branched from an up-to-date `main`.
-- Preview locally (`python3 -m http.server 8000` from the repo root) and check each changed page at 375 px and desktop width. If you need a screenshot tool that isn't installed, ask first.
-- Before pushing: every internal link resolves, `sitemap.xml` lists the new pages, no page lost its GA tag, and the legal URLs above still work.
+- Preview locally (`python3 .claude/scripts/serve.py` from the repo root) and check each changed page at 375 px and desktop width. If you need a screenshot tool that isn't installed, ask first.
+- Before pushing: `python3 .claude/scripts/check-site.py` passes (links, one H1, title/description lengths, canonicals, GA tag, alt text, JSON-LD, campaign links, identical header/footer, sitemap), and the legal URLs above still work.
 - **Push the branch and stop.** Corey reviews it and approves the merge into `main` (which deploys). Never push to or merge into `main` yourself, never force-push `main`.
 - After a merge, check the live URLs once Pages has deployed.
 - Commits small and conventional. No `Co-Authored-By` trailers or AI mentions.
