@@ -1564,3 +1564,9 @@ textarea {
   text-decoration: underline;
   text-underline-offset: 0.15em;
 }
+.cell-note {
+  display: block;
+  margin-top: var(--s1);
+  font-size: var(--fs-caption);
+  color: var(--text-muted);
+}
