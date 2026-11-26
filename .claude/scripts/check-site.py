@@ -15,6 +15,7 @@ as Jekyll does):
 - App Store links use the campaign URL with a known ct code
 - header and footer are identical on every page (campaign code aside)
 - sitemap.xml lists every indexable page's canonical, and nothing else
+- WARN while a guide still says it's awaiting Corey's review
 """
 import html
 import json
@@ -150,6 +151,8 @@ def main():
             err(rel, f"og:image not found: {og}")
         if p.meta.get("apple-itunes-app") != "app-id=6746517769":
             err(rel, "missing Smart App Banner")
+        if "review-pending" in src:
+            warn(rel, "awaiting Corey's review: set 'Last reviewed' to his approval date and add datePublished/dateModified to the Article JSON-LD before merging")
         if "G-HC8N876HCR" not in src:
             err(rel, "missing GA tag")
         for img in p.imgs:
