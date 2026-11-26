@@ -76,8 +76,9 @@ The site follows the app's house style (`~/Desktop/buzzoff-final/docs/HEALTH-COP
 - One branch per task (`feat/...`, `fix/...`, `chore/...`), branched from an up-to-date `main`.
 - Preview locally (`python3 .claude/scripts/serve.py` from the repo root) and check each changed page at 375 px and desktop width. If you need a screenshot tool that isn't installed, ask first.
 - Before pushing: `python3 .claude/scripts/check-site.py` passes (links, one H1, title/description lengths, canonicals, GA tag, alt text, JSON-LD, campaign links, identical header/footer, sitemap), and the legal URLs above still work.
-- **Push the branch and stop.** Corey reviews it and approves the merge into `main` (which deploys). Never push to or merge into `main` yourself, never force-push `main`.
-- After a merge, check the live URLs once Pages has deployed.
+- **Push the branch and stop.** Corey reviews it and approves the merge in chat. Only after that explicit approval, the session merges the branch into `main` with a merge commit (`git merge --no-ff`; never force, never rebase `main`) and pushes `main`, which deploys.
+- After the merge: wait for GitHub Pages to deploy, then check the live pages (status codes and content), including the legal URLs above. Then delete the merged branch locally and on origin.
+- Without that approval in chat, never merge into or push `main`. Small docs-only changes to `.claude/` go on `main` only when Corey asks for them there.
 - Commits small and conventional. No `Co-Authored-By` trailers or AI mentions.
 
 ## Guardrails
