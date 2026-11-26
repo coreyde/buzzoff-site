@@ -1570,3 +1570,94 @@ textarea {
   font-size: var(--fs-caption);
   color: var(--text-muted);
 }
+
+/* ---------- Compare (/compare/) ---------- */
+.compare-header {
+  padding-block: var(--s6) var(--s8);
+}
+.compare-header > * + * {
+  margin-top: var(--s4);
+}
+.compare-kinds,
+.compare-header .disclosure {
+  max-width: var(--w-text);
+}
+.compare-legend {
+  margin-top: var(--s3);
+  max-width: var(--w-text);
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+}
+.scroll-hint {
+  margin-top: var(--s2);
+}
+@media (min-width: 960px) {
+  .scroll-hint {
+    display: none;
+  }
+}
+.compare-section .table-wrap {
+  margin-top: var(--s4);
+  background: var(--bg);
+}
+.compare-table {
+  min-width: 880px;
+  table-layout: fixed;
+}
+.compare-table .col-label {
+  width: 128px;
+}
+.compare-table th[scope="row"] {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--bg);
+  font-weight: 600;
+  box-shadow: inset -1px 0 0 var(--border);
+}
+.compare-table thead th {
+  vertical-align: bottom;
+}
+.compare-table .group-row th,
+.compare-table .group-row td {
+  padding-bottom: 0;
+  border-bottom: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.compare-table .app-row th {
+  font-size: var(--fs-small);
+  color: var(--text);
+}
+.compare-table a {
+  color: var(--orange-ink);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+.compare-table .is-ours {
+  background: var(--orange-tint);
+}
+.v {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.v--yes {
+  color: var(--sage-ink);
+}
+.v--yes::before {
+  content: "\2713\00A0";
+  content: "\2713\00A0" / "";
+}
+.v--na {
+  font-weight: 400;
+  color: var(--text-muted);
+}
+.compare-prose {
+  max-width: var(--w-text);
+}
+.compare-prose section + section {
+  margin-top: var(--s8);
+}
+.compare-prose section > * + * {
+  margin-top: var(--s4);
+}
