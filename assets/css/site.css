@@ -1352,7 +1352,15 @@ sup.cite:target a[href] {
   font-size: 1rem;
 }
 .field select {
-  padding-right: var(--s2);
+  -webkit-appearance: none;
+  appearance: none;
+  /* Our own chevron (WebKit and Blink draw theirs flush to the edge): 12px wide, 14px from the right, centred. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%232B2B2B' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 12px 8px;
+  padding-right: 40px; /* 14px gap + 12px chevron + 14px clear of the text */
+  text-overflow: ellipsis;
 }
 .field input:disabled {
   background: var(--card);
