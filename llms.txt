@@ -30,6 +30,12 @@ Every figure in the guides links to its source (EFSA, FDA, NHS, USDA, peer-revie
 - [How long caffeine stays in your system](https://buzzoffapp.com/guides/how-long-does-caffeine-stay-in-your-system/): mean half-life about 5 hours, range 1.5 to 9.5 hours (National Academy of Sciences, 2001)
 - [Caffeine and sleep](https://buzzoffapp.com/guides/caffeine-and-sleep/): when to stop caffeine before bed
 - [Coffee swaps](https://buzzoffapp.com/guides/coffee-swaps/): decaf, tea and caffeine-free drinks
+- [How to quit energy drinks](https://buzzoffapp.com/guides/how-to-quit-energy-drinks/): energy drinks generally have 54 to 328 mg of caffeine per 16 fl oz (FDA); cold turkey or cutting back
+- [How to cut back on coffee](https://buzzoffapp.com/guides/how-to-cut-back-on-coffee/): smaller steps with half-caf, decaf and tea; in one study withdrawal appeared only once intake fell to 100 mg a day or less (Evans & Griffiths, 1999)
+- [Tiredness after quitting caffeine](https://buzzoffapp.com/guides/tiredness-after-quitting-caffeine/): a confirmed withdrawal symptom; withdrawal typically lasts 2–9 days (Juliano & Griffiths, 2004)
+- [Caffeine in tea](https://buzzoffapp.com/guides/caffeine-in-tea/): black tea about 50 mg per 220 ml cup (EFSA), green tea 37 mg per 12 fl oz (FDA), matcha by the gram (Meyer et al., 2023)
+- [Afternoon slump without coffee](https://buzzoffapp.com/guides/afternoon-slump-without-coffee/): the post-lunch dip, short naps and a quick walk, from the research
+- [Caffeine and anxiety](https://buzzoffapp.com/guides/caffeine-and-anxiety/): who may be more sensitive and how much is a lot, from FDA guidance and research
 
 ## Tools
 
