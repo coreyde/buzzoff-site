@@ -281,6 +281,13 @@ textarea {
   letter-spacing: var(--track-heading);
   padding-block: var(--s2);
 }
+.brand {
+  flex-shrink: 0; /* the icon never gets squeezed */
+}
+.brand span,
+.site-nav a {
+  white-space: nowrap; /* "Buzz Off" and "Get the app" never break onto two lines */
+}
 .brand img {
   width: 32px;
   height: 32px;
@@ -1227,8 +1234,9 @@ sup.cite:target a[href] {
   margin-bottom: var(--s4);
 }
 
-/* Narrow phones: keep the header on one line (the icon still links home). */
-@media (max-width: 399px) {
+/* Phones: keep the header on one line (the icon still links home). The full header
+   ("Buzz Off" + nav) needs 440px with no slack, so the name hides below 460px. */
+@media (max-width: 459px) {
   .brand span {
     position: absolute;
     width: 1px;
@@ -1239,6 +1247,18 @@ sup.cite:target a[href] {
   }
   .site-nav {
     gap: var(--s3);
+  }
+}
+/* Smallest phones (320px): tighter gaps and button padding so the nav still fits. */
+@media (max-width: 359px) {
+  .site-header__inner {
+    gap: var(--s1);
+  }
+  .site-nav {
+    gap: var(--s2);
+  }
+  .site-nav .btn {
+    padding-inline: var(--s3);
   }
 }
 .review-pending {
