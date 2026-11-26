@@ -1,0 +1,24 @@
+# Buzz Off
+
+> Buzz Off ("Quit Caffeine: Buzz Off" on the App Store) is an iPhone app that helps people quit caffeine cold turkey or cut back step by step with a weekly plan. Free to download, with an optional Pro subscription.
+
+- Two ways to do it: Cold Turkey (stop now, a day counter and the 21-Day Reset) or Gradual (a weekly plan that lowers a daily caffeine target, in mg, from your own starting point).
+- A short daily check-in (caffeine yes or no, drink, mood, optional symptoms) and quick-add drink logging with the caffeine in each drink.
+- Day counter, streaks, money saved (based on what you usually spend), symptom trends and plan-adherence charts, a pledge, achievements and a daily reminder.
+- Short reads on withdrawal, sleep and swaps, with sources listed in the app.
+- iPhone only, in English.
+- Buzz Off is a tracking and habit tool, not medical advice.
+
+## Pages
+
+- [Home](https://buzzoffapp.com/): what the app does, with the App Store link
+- [Contact](https://buzzoffapp.com/contact): support email, support@buzzoffapp.com
+
+## App Store
+
+- [Quit Caffeine: Buzz Off](https://apps.apple.com/app/id6746517769): the App Store listing
+
+## Legal
+
+- [Privacy policy](https://buzzoffapp.com/privacy-policy.html): what the app and the website collect and why
+- [Terms and conditions](https://buzzoffapp.com/terms): terms for using the app
