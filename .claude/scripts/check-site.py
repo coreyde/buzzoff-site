@@ -4,9 +4,9 @@
 Run from the repo root:  python3 .claude/scripts/check-site.py
 Exit code 1 if any ERROR. WARN lines are worth a look but don't fail.
 
-Checks every published .html page (dot-folders and _-prefixed paths skipped,
-as Jekyll does):
-- internal href/src resolve the way GitHub Pages resolves them
+Checks every published .html page (what build-pages.sh copies into public/):
+- internal href/src resolve the way Cloudflare Pages resolves them, and point
+  at the final URL (no /x.html or /x/index.html, which Cloudflare 308-redirects)
 - lang="en", one <h1>, headings never skip a level going down
 - <title> <= 60 chars, meta description <= 155, canonical (unless noindex)
 - Open Graph + Twitter tags, the GA tag (G-HC8N876HCR), the Smart App Banner
@@ -14,19 +14,24 @@ as Jekyll does):
 - JSON-LD blocks parse
 - App Store links use the campaign URL with a known ct code
 - header and footer are identical on every page (campaign code aside)
-- sitemap.xml lists every indexable page's canonical, and nothing else
+- canonicals are each page's final URL; sitemap.xml lists every indexable
+  page's canonical, and nothing else; llms.txt links resolve without redirects
 - WARN while a guide still says it's awaiting Corey's review
+- build-pages.sh builds, puts every checked page in its output and leaves out
+  .claude/, dotfiles, Markdown files and CNAME
 """
 import html
 import json
 import os
 import re
+import subprocess
 import sys
+import tempfile
 from html.parser import HTMLParser
 from urllib.parse import urlparse
 
 sys.path.insert(0, os.path.dirname(__file__))
-from serve import ROOT, resolve  # noqa: E402
+from serve import ROOT, published, resolve, route  # noqa: E402
 
 SITE = "https://buzzoffapp.com"
 CT_CODES = {"web-home", "web-guides", "web-tools", "web-compare", "web-other"}
@@ -102,15 +107,39 @@ class Page(HTMLParser):
 
 def pages():
     for dirpath, dirnames, filenames in os.walk(ROOT):
-        dirnames[:] = [d for d in dirnames if not d.startswith((".", "_"))]
+        rel_dir = os.path.relpath(dirpath, ROOT)
+        base = [] if rel_dir == "." else rel_dir.split(os.sep)
+        dirnames[:] = [d for d in dirnames if published(base + [d])]
         for f in filenames:
-            if f.endswith(".html") and not f.startswith((".", "_")):
+            if f.endswith(".html") and published(base + [f]):
                 yield os.path.relpath(os.path.join(dirpath, f), ROOT)
 
 
 def block(src, start_pat, end_pat):
     m = re.search(start_pat + r".*?" + end_pat, src, re.S)
     return re.sub(r"ct=web-[a-z]+", "ct=X", m.group(0)) if m else None
+
+
+def check_build(page_list):
+    """Run build-pages.sh into a temp folder and check what it publishes."""
+    script = os.path.join(ROOT, ".claude", "scripts", "build-pages.sh")
+    with tempfile.TemporaryDirectory() as tmp:
+        out = os.path.join(tmp, "public")
+        run = subprocess.run(["sh", script, out], capture_output=True, text=True)
+        if run.returncode != 0:
+            err("build-pages.sh", (run.stderr or run.stdout).strip())
+            return
+        built = set()
+        for dirpath, _, filenames in os.walk(out):
+            for f in filenames:
+                built.add(os.path.relpath(os.path.join(dirpath, f), out))
+    for rel in page_list:
+        if rel not in built:
+            err("build-pages.sh", f"{rel} is checked but not in the build")
+    for rel in sorted(built):
+        parts = rel.split(os.sep)
+        if any(p.startswith(".") for p in parts) or rel.endswith(".md") or rel == "CNAME":
+            err("build-pages.sh", f"publishes {rel}")
 
 
 def main():
@@ -143,6 +172,8 @@ def main():
                 err(rel, "missing canonical")
             else:
                 indexable[p.canonical] = rel
+                if resolve(urlparse(p.canonical).path) != os.path.join(ROOT, rel):
+                    err(rel, f"canonical is not this page's final URL: {p.canonical}")
         for key in ("og:title", "og:description", "og:image", "twitter:card", "twitter:image"):
             if not p.meta.get(key):
                 err(rel, f"missing {key}")
@@ -180,8 +211,11 @@ def main():
             path = u.path
             if not path.startswith("/"):
                 path = "/" + os.path.normpath(os.path.join(os.path.dirname(rel), path))
-            if resolve(path) is None:
+            status, target = route(path)
+            if status == 404:
                 err(rel, f"broken internal {attr}: {value}")
+            elif status == 308:
+                err(rel, f"internal {attr} redirects (308): {value} -> use {target}")
 
         header = block(src, r"<header class=\"site-header\">", r"</header>")
         footer = block(src, r"<footer class=\"site-footer\">", r"</footer>")
@@ -202,6 +236,12 @@ def main():
         err("sitemap.xml", f"missing {url}")
     for url in sorted(locs - set(indexable)):
         err("sitemap.xml", f"lists {url}, which is not an indexable page")
+    llms = open(os.path.join(ROOT, "llms.txt"), encoding="utf-8").read()
+    for url in re.findall(r"\((https://buzzoffapp\.com/[^)\s]*)\)", llms):
+        if resolve(urlparse(url).path) is None:
+            err("llms.txt", f"link does not resolve to a page (or redirects): {url}")
+
+    check_build(sorted(pages()))
 
     for line in warnings + errors:
         print(line)
