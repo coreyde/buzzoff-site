@@ -30,6 +30,16 @@ Every figure in the guides links to its source (EFSA, FDA, NHS, USDA, peer-revie
 - [Caffeine and sleep](https://buzzoffapp.com/guides/caffeine-and-sleep/): when to stop caffeine before bed
 - [Coffee swaps](https://buzzoffapp.com/guides/coffee-swaps/): decaf, tea and caffeine-free drinks
 
+## Tools
+
+Free tools that run in the browser; nothing entered is stored or sent. Each one shows its sources.
+
+- [Caffeine tools](https://buzzoffapp.com/tools/): all tools
+- [Caffeine calculator](https://buzzoffapp.com/tools/caffeine-calculator/): adds up the caffeine in today's drinks, from EFSA and FDA figures
+- [When will my caffeine wear off?](https://buzzoffapp.com/tools/caffeine-wear-off-calculator/): estimates caffeine left at bedtime, using the 5-hour mean half-life and the 1.5 to 9.5 hour range (National Academy of Sciences, 2001)
+- [Caffeine taper planner](https://buzzoffapp.com/tools/caffeine-taper-planner/): a 6-week plan with the same rule as the app's Gradual plan
+- [Money saved calculator](https://buzzoffapp.com/tools/caffeine-money-saved-calculator/): what quitting or cutting back could save, from your own prices
+
 ## App Store
 
 - [Quit Caffeine: Buzz Off](https://apps.apple.com/app/id6746517769): the App Store listing

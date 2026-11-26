@@ -20,6 +20,7 @@ Use with `.claude/templates/guide.html` for every new guide. The rules behind it
 - H1 = the question. The short answer box answers it in two sentences, each figure cited.
 - 3–6 H2 sections named after real follow-up questions. Short paragraphs and lists.
 - House style: "many people", "may", "some people". No promises, no diagnosing, no "cure", "detox" or "addiction" as a diagnosis, no percentage outcomes, no invented or average figures. Warm, calm, no guilt.
+- Units: number, `&nbsp;`, unit in body text (`90&nbsp;mg`, `200&nbsp;ml`, `2–9&nbsp;days`, `12&nbsp;fl&nbsp;oz`), never "95mg" (that's the app's UI style, not the site's). Plain spaces in the title, meta tags and JSON-LD.
 - Worked examples (half-life maths, cups of decaf) say they're estimates and only use cited inputs.
 - The "In the app" aside states Buzz Off facts only.
 - 2–4 internal links: up to the pillar, across to siblings, plus the tools once they exist.
@@ -36,6 +37,6 @@ Use with `.claude/templates/guide.html` for every new guide. The rules behind it
 
 ## Before pushing
 
-- `python3 .claude/scripts/check-site.py`: 0 errors. The only warnings allowed are the review-pending ones.
+- `python3 .claude/scripts/check-site.py`: 0 errors. The only warnings allowed are the review-pending ones (fix any units warning).
 - Check the page at 375 px (no sideways scroll; wide tables scroll inside `.table-wrap`) and at desktop width, with screenshots for the report.
 - Push the branch and stop. Every guide goes to Corey for approval before merge.
