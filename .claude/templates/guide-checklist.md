@@ -25,7 +25,7 @@ Use with `.claude/templates/guide.html` for every new guide. The rules behind it
 - The "In the app" aside states Buzz Off facts only.
 - 2–4 internal links: up to the pillar, across to siblings, plus the tools once they exist.
 - 3–5 FAQs at the end. The same questions, and only those, go in the FAQPage JSON-LD.
-- Numbered citations, Wikipedia style: `claim.<sup class="cite" id="cite-1"><a href="#src-1" aria-label="Source 1: Juliano and Griffiths, 2004">[1]</a></sup>`, right after the punctuation with no space. Numbered by first use; a repeat keeps its number; only the first use has `id="cite-N"`. Keep the evidence type in the sentence ("a review of 66 studies found…"); author and year go in the Sources list.
+- Numbered citations, Wikipedia style: `claim.&#8288;<sup class="cite" id="cite-1"><a href="#src-1" aria-label="Source 1: Juliano and Griffiths, 2004">[1]</a></sup>`, right after the punctuation with no space; the `&#8288;` (word joiner) keeps it from wrapping onto its own line. Numbered by first use; a repeat keeps its number; only the first use has `id="cite-N"`. Keep the evidence type in the sentence ("a review of 66 studies found…"); author and year go in the Sources list.
 - The Sources list is an ordered list in that same order (`id="src-N"`), each with a `src-back` link to `#cite-N`. Every [n] has a source and every source is cited (check-site.py fails otherwise).
 - FAQPage JSON-LD answers are the visible answers word for word, as plain text without [n].
 - End with the not-medical-advice note (in the template).

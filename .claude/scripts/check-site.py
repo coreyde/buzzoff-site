@@ -19,6 +19,7 @@ Checks every published .html page (what build-pages.sh copies into public/):
   page's canonical, and nothing else; llms.txt links resolve without redirects
 - numbered citations: every <sup class="cite"> [n] links to #src-n with an
   aria-label "Source n: ...", numbers first appear in order 1, 2, 3...,
+  each [n] is glued to the word before it with &#8288; (word joiner),
   the first use has id="cite-n", the Sources list is src-1..src-N in that
   order with a back link to #cite-n, every source is cited, no old-style
   (Author, Year) a.cite links, and no [n] inside JSON-LD
@@ -148,6 +149,8 @@ def check_citations(rel, src, jsonld):
         err(rel, 'old-style (Author, Year) citation link (a.cite): use <sup class="cite"> [n]')
     if src.count('<sup class="cite"') != len(CITE_RE.findall(src)):
         err(rel, 'malformed <sup class="cite">: want <sup class="cite"><a href="#src-n" aria-label="Source n: ...">[n]</a></sup>')
+    if len(re.findall(r'<sup class="cite"', src)) != len(re.findall(r'&#8288;<sup class="cite"', src)):
+        err(rel, 'every <sup class="cite"> needs a word joiner (&#8288;) right before it, so [n] never wraps onto a line of its own')
     first_use = []
     for m in CITE_RE.finditer(src):
         cid, href_n, label, text_n = m.groups()
