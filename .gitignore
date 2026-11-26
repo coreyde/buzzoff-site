@@ -1,0 +1,5 @@
+# Internal strategy docs stay local (repo is public)
+.claude/docs/
+
+# macOS
+.DS_Store

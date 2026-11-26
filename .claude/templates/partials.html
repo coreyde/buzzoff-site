@@ -1,0 +1,103 @@
+<!--
+  Shared head, header and footer for every buzzoffapp.com page (copy by hand; keep identical).
+  Replace the {{…}} slots. CT is the page-level App Store campaign code:
+    web-home (/), web-guides (/guides/…), web-tools (/tools/…), web-compare (/compare/…),
+    web-other (FAQ, About, 404, legal, contact).
+  Each App Store link also needs class="appstore" and data-placement="<button>" for GA.
+  A 404/noindex page drops the canonical and og:url and adds <meta name="robots" content="noindex" />.
+  Run python3 .claude/scripts/check-site.py before pushing: it fails if a header/footer differs.
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-HC8N876HCR"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-HC8N876HCR");
+    </script>
+
+    <title>{{TITLE ≤60, ends with | Buzz Off}}</title>
+    <meta name="description" content="{{DESCRIPTION ≤155}}" />
+    <link rel="canonical" href="https://buzzoffapp.com{{PATH}}" />
+    <meta name="apple-itunes-app" content="app-id=6746517769" />
+    <meta name="theme-color" content="#FAF7F2" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icon-32.png" />
+    <link rel="apple-touch-icon" href="/assets/images/icon-180.png" />
+
+    <meta property="og:site_name" content="Buzz Off" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{{TITLE ≤60, ends with | Buzz Off}}" />
+    <meta property="og:description" content="{{DESCRIPTION ≤155}}" />
+    <meta property="og:url" content="https://buzzoffapp.com{{PATH}}" />
+    <meta property="og:image" content="https://buzzoffapp.com/assets/og/{{OG: home|guides|tools|compare|default}}.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The Buzz Off capybara waving next to the line: Quit or cut back on caffeine, at your own pace." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{TITLE ≤60, ends with | Buzz Off}}" />
+    <meta name="twitter:description" content="{{DESCRIPTION ≤155}}" />
+    <meta name="twitter:image" content="https://buzzoffapp.com/assets/og/{{OG: home|guides|tools|compare|default}}.jpg" />
+
+    <link rel="preload" href="/assets/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+    <script src="/assets/js/site.js" defer></script>
+    {{OPTIONAL: <script type="application/ld+json">…</script> for what is visible on the page}}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a class="brand" href="/">
+          <img src="/assets/images/icon-128.webp" alt="" width="32" height="32" />
+          <span>Buzz Off</span>
+        </a>
+        <nav class="site-nav" aria-label="Main">
+          <a class="btn btn--primary appstore" data-placement="header" href="https://apps.apple.com/app/apple-store/id6746517769?pt=127836285&amp;ct={{CT}}&amp;mt=8">Get the app</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      {{PAGE CONTENT}}
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-cta">
+          <img class="face" src="/assets/images/moods/neutral.webp" alt="" width="56" height="56" loading="lazy" />
+          <p class="footer-tagline">Quit or cut back on caffeine, at your own pace.</p>
+          <a class="appstore badge-link" data-placement="footer" href="https://apps.apple.com/app/apple-store/id6746517769?pt=127836285&amp;ct={{CT}}&amp;mt=8">
+            <img src="/assets/icons/app-store-badge.svg" alt="Download on the App Store" width="144" height="48" loading="lazy" />
+          </a>
+        </div>
+        <nav class="footer-links" aria-label="Footer">
+          <div>
+            <p class="footer-heading">Buzz Off</p>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/contact">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-heading">Legal</p>
+            <ul>
+              <li><a href="/privacy-policy.html">Privacy policy</a></li>
+              <li><a href="/terms">Terms</a></li>
+            </ul>
+          </div>
+        </nav>
+        <p class="footer-note">General information, not medical advice. <span class="nowrap">&copy; 2026 Buzz Off</span></p>
+      </div>
+    </footer>
+  </body>
+</html>
