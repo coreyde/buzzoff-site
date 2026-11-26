@@ -8,21 +8,25 @@ The redesign and SEO brief is `.claude/docs/website-brief.md`: read it before pl
 
 ## How it's hosted (read this first)
 
-- Static files on **GitHub Pages**, repo `github.com/coreyde/buzzoff-site`, custom domain in `CNAME` (`buzzoffapp.com`).
-- **A push to `main` deploys to the live site within minutes.** There is no staging site. Feature branches don't deploy.
-- GitHub Pages runs **Jekyll** by default (there's no `.nojekyll`). Jekyll publishes every file except dot-folders and `_`-prefixed ones, so a Markdown file at the root becomes a public page. Internal notes, plans and specs go in `.claude/` (this folder), never at the root or in a normal folder.
-- Assume the repo and everything in it is public. Never commit revenue, user data, internal plans, keys or tokens.
+- Static files on **Cloudflare Pages**, project `buzzoff-site`, built from the repo `github.com/coreyde/buzzoff-site`. Live test URL: `https://buzzoff-site.pages.dev`.
+- **A push to `main` deploys to the live site within minutes.**
+- **Every pushed branch gets a preview deploy** at `https://<branch>.buzzoff-site.pages.dev` (Cloudflare turns `/` and other non-alphanumerics into `-`, e.g. `chore/cloudflare-pages` → `chore-cloudflare-pages.buzzoff-site.pages.dev`). Put the branch's preview URL in every report, after checking it loads.
+- Cloudflare settings (set by Corey): build command `sh .claude/scripts/build-pages.sh`, output directory `public`.
+- **The build script decides what's public.** Cloudflare doesn't run Jekyll; it serves every file in `public/`. `build-pages.sh` copies the repo into `public/` minus anything starting with a dot (`.claude/`, `.git*`), all Markdown files and `CNAME`, and fails if a required page is missing or a private file slips in. Internal notes, plans and specs still go in `.claude/`. A new kind of non-public file needs a rule in `build-pages.sh` (and the matching `published()` in `serve.py`). `public/` is git-ignored.
+- Clean URLs: Cloudflare 308-redirects `/x.html` to `/x` and `/x/index.html` to `/x/`, and `/x` to `/x/` for folders. Canonicals, the sitemap, `llms.txt` and internal links use the final URLs (`/privacy-policy`, `/terms`, `/contact`, `/faq/`, `/guides/<slug>/`); the checker fails on links that redirect. Old `.html` URLs keep working through the redirect. Unknown paths get `404.html` with status 404.
+- Until Corey attaches `buzzoffapp.com` to Cloudflare, the domain is still served by GitHub Pages from `main` (`CNAME` stays in the repo for that; the build leaves it out). The clean URLs above work on both.
+- The repo is public now and will become private. Until it is, assume everything in it is public: never commit revenue, user data, internal plans, keys or tokens.
 
 ## Stack
 
-- Plain HTML pages, no build step, no `package.json`.
+- Plain HTML pages, no `package.json`. The only build step is `build-pages.sh`, which copies files and changes nothing.
 - Hand-written CSS: `assets/css/site.css` (design tokens from the app's `constants/theme.ts` as CSS variables, plus components). `assets/css/legal.css` reproduces the Tailwind utilities the legal pages' bodies still use, so their markup never has to change. No Tailwind, no CDN.
 - Inter is self-hosted (`assets/fonts/inter-latin-var.woff2`, OFL). No Google Fonts request.
 - Colour rules for AA: orange `#E59F42` is a fill only (text on it is `#2B2B2B`); links use `--orange-ink`; muted text on cards uses `--text-muted-card`.
 - Google Analytics `G-HC8N876HCR` (gtag) on every page. `assets/js/site.js` sends `app_store_click` with a `placement` parameter for every `a.appstore[data-placement]`. Nothing a visitor types (tool inputs) ever goes to GA, the URL or the console.
 - App Store links are static campaign links: `https://apps.apple.com/app/apple-store/id6746517769?pt=127836285&ct=<code>&mt=8`, with page-level codes only (Apple needs 5 installs per code to show it): `web-home`, `web-guides`, `web-tools`, `web-compare`, `web-other` (FAQ, About, 404, legal, contact).
 - Head, header and footer are copied into each page by hand from `.claude/templates/partials.html`. Keep them identical across pages; the checker fails if they differ.
-- Local tools (stdlib/none to install): `python3 .claude/scripts/serve.py` (preview server that resolves URLs like Pages), `python3 .claude/scripts/check-site.py` (pre-push checks), `sh .claude/og/render.sh` (OG images via headless Chrome).
+- Local tools (stdlib/none to install): `sh .claude/scripts/build-pages.sh` (the Cloudflare build: copies the public files into `public/`), `python3 .claude/scripts/serve.py` (preview server that resolves URLs and redirects like Cloudflare Pages and hides what the build leaves out), `python3 .claude/scripts/check-site.py` (pre-push checks, including a test build), `sh .claude/og/render.sh` (OG images via headless Chrome).
 - `.claude/docs/` is git-ignored: strategy docs (the brief, plans) stay on Corey's Mac because the repo is public.
 
 ## Pages and links that must keep working
@@ -30,12 +34,12 @@ The redesign and SEO brief is `.claude/docs/website-brief.md`: read it before pl
 | File | Notes |
 |---|---|
 | `index.html` | Home page |
-| `privacy-policy.html` | Legal. Linked from the App Store listing and the app (`https://buzzoffapp.com/privacy-policy.html`). Last updated 25 Nov 2026 to match the app's `docs/PRIVACY-DATA.md` |
+| `privacy-policy.html` | Legal. Linked from the App Store listing and the app (`https://buzzoffapp.com/privacy-policy.html`, which 308-redirects to the canonical `/privacy-policy`). Last updated 25 Nov 2026 to match the app's `docs/PRIVACY-DATA.md` |
 | `terms.html` | Legal. Linked from the listing as `https://www.buzzoffapp.com/terms` |
 | `contact.html` | `mailto:support@buzzoffapp.com` + Pro support |
 | `assets/images/buzzoff-logo.png`, `assets/icons/app-store-badge.svg` | Logo/favicon, App Store badge |
 
-Never rename or delete those four pages or change their URLs. Only shared head/header/footer and meta changes are allowed on `privacy-policy.html` and `terms.html`; their legal wording changes only when Corey asks.
+Never rename or delete those four pages or break their URLs (the old `.html` forms must keep redirecting). Only shared head/header/footer and meta changes are allowed on `privacy-policy.html` and `terms.html`; their legal wording changes only when Corey asks.
 
 ## Facts about the app
 
@@ -75,16 +79,17 @@ The site follows the app's house style (`~/Desktop/buzzoff-final/docs/HEALTH-COP
 - One session per task, **plan mode first**; wait for Corey's approval before changing files.
 - One branch per task (`feat/...`, `fix/...`, `chore/...`), branched from an up-to-date `main`.
 - Preview locally (`python3 .claude/scripts/serve.py` from the repo root) and check each changed page at 375 px and desktop width. If you need a screenshot tool that isn't installed, ask first.
-- Before pushing: `python3 .claude/scripts/check-site.py` passes (links, one H1, title/description lengths, canonicals, GA tag, alt text, JSON-LD, campaign links, identical header/footer, sitemap), and the legal URLs above still work.
+- Before pushing: `python3 .claude/scripts/check-site.py` passes (links, one H1, title/description lengths, canonicals, GA tag, alt text, JSON-LD, campaign links, identical header/footer, sitemap, no redirecting links, the build), and the legal URLs above still work.
+- After pushing a branch: open its preview URL and check the changed pages, the legal URLs and that `/.claude/` and README files return 404.
 - **Push the branch and stop.** Corey reviews it and approves the merge in chat. Only after that explicit approval, the session merges the branch into `main` with a merge commit (`git merge --no-ff`; never force, never rebase `main`) and pushes `main`, which deploys.
-- After the merge: wait for GitHub Pages to deploy, then check the live pages (status codes and content), including the legal URLs above. Then delete the merged branch locally and on origin.
+- After the merge: wait for Cloudflare Pages to deploy `main` (and GitHub Pages too, while it still serves `buzzoffapp.com`), then check the live pages (status codes and content), including the legal URLs above. Then delete the merged branch locally and on origin.
 - Without that approval in chat, never merge into or push `main`. Small docs-only changes to `.claude/` go on `main` only when Corey asks for them there.
 - Commits small and conventional. No `Co-Authored-By` trailers or AI mentions.
 
 ## Guardrails
 
 - Never add dependencies, a build step, a framework, or GitHub Actions without asking.
-- Never change `CNAME`, DNS, the GitHub Pages settings or the GA property.
+- Never change `CNAME`, DNS, the Cloudflare or GitHub Pages settings or the GA property.
 - Any new tracker, form, embed or third-party script needs Corey's OK first and a matching privacy-policy update.
 - No fake reviews, testimonials, ratings or user counts. No images of real people.
 - Don't touch the app repo; if the app's facts look wrong or out of date, say so in your report instead.
