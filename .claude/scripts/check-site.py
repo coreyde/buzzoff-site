@@ -12,7 +12,8 @@ Checks every published .html page (what build-pages.sh copies into public/):
 - Open Graph + Twitter tags, the GA tag (G-HC8N876HCR), the Smart App Banner
 - every <img> has alt (empty is fine for decorative), width and height
 - JSON-LD blocks parse
-- App Store links use the campaign URL with a known ct code
+- App Store links use the campaign URL with a known ct code; links to other
+  apps' listings (compare pages) are https://apps.apple.com/app/id<n>, rel=nofollow
 - header and footer are identical on every page (campaign code aside)
 - canonicals are each page's final URL; sitemap.xml lists every indexable
   page's canonical, and nothing else; llms.txt links resolve without redirects
@@ -40,6 +41,8 @@ CT_CODES = {"web-home", "web-guides", "web-tools", "web-compare", "web-other"}
 STORE_RE = re.compile(
     r"^https://apps\.apple\.com/app/apple-store/id6746517769\?pt=127836285&ct=([a-z-]+)&mt=8$"
 )
+
+OTHER_STORE_RE = re.compile(r"^https://apps\.apple\.com/app/id\d+$")
 
 errors, warnings = [], []
 UNIT_SPLIT = re.compile(
@@ -70,6 +73,7 @@ class Page(HTMLParser):
         self._in_jsonld = False
         self._buf = ""
         self.store_links = []
+        self.other_store_links = []  # other apps' listings (compare pages)
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
@@ -94,7 +98,10 @@ class Page(HTMLParser):
             if a.get(attr):
                 self.links.append((tag, attr, a[attr]))
         if tag == "a" and "apps.apple.com" in a.get("href", ""):
-            self.store_links.append(a)
+            if "id6746517769" in a["href"]:
+                self.store_links.append(a)
+            else:
+                self.other_store_links.append(a)
 
     def handle_endtag(self, tag):
         if tag == "title":
@@ -211,6 +218,13 @@ def main():
                 err(rel, f"App Store link without a known campaign code: {a.get('href')}")
             if "appstore" not in a.get("class", "").split() or not a.get("data-placement"):
                 err(rel, "App Store link missing class=appstore or data-placement")
+        for a in p.other_store_links:
+            if not OTHER_STORE_RE.match(a.get("href", "")):
+                err(rel, f"Other app's listing link not in the form https://apps.apple.com/app/id<n>: {a.get('href')}")
+            if "nofollow" not in a.get("rel", "").split():
+                err(rel, f"Other app's listing link without rel=nofollow: {a.get('href')}")
+            if "appstore" in a.get("class", "").split():
+                err(rel, f"Other app's listing link has class=appstore (GA would count it): {a.get('href')}")
         for tag, attr, value in p.links:
             u = urlparse(value)
             if u.scheme in ("http", "https", "mailto", "tel", "data") or value.startswith("#"):

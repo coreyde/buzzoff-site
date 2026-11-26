@@ -14,6 +14,7 @@
 - [Home](https://buzzoffapp.com/): what the app does, with the App Store link
 - [About](https://buzzoffapp.com/about/): who makes Buzz Off and how to reach them
 - [FAQ](https://buzzoffapp.com/faq/): pricing and Pro, Cold Turkey or Gradual, devices, cancelling, privacy
+- [Buzz Off vs other caffeine apps](https://buzzoffapp.com/compare/): feature comparison with two quit apps and three caffeine trackers, from each app's App Store page (we make Buzz Off)
 - [Contact](https://buzzoffapp.com/contact): support email, support@buzzoffapp.com
 
 ## Guides
