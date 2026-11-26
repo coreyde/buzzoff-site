@@ -81,6 +81,7 @@ The site follows the app's house style (`~/Desktop/buzzoff-final/docs/HEALTH-COP
 - One session per task, **plan mode first**; wait for Corey's approval before changing files.
 - One branch per task (`feat/...`, `fix/...`, `chore/...`), branched from an up-to-date `main`.
 - Preview locally (`python3 .claude/scripts/serve.py` from the repo root) and check each changed page at 375 px and desktop width. If you need a screenshot tool that isn't installed, ask first.
+- **iOS simulators are shared with the app repo's sessions.** Don't boot, restart, shut down or use any iOS simulator from this repo's sessions while an app build session is working (its dev client runs on them). Check mobile layouts in Chromium at device widths (320, 375, 393, 402, 430 px) instead, and ask Corey first if a real Mobile Safari check is needed.
 - Before pushing: `python3 .claude/scripts/check-site.py` passes (links, one H1, title/description lengths, canonicals, GA tag, alt text, JSON-LD, campaign links, identical header/footer, sitemap, no redirecting links, the build), and the legal URLs above still work.
 - After pushing a branch: open its preview URL and check the changed pages, the legal URLs and that `/.claude/` and README files return 404.
 - **Push the branch and stop.** Corey reviews it and approves the merge in chat. Only after that explicit approval, the session merges the branch into `main` with a merge commit (`git merge --no-ff`; never force, never rebase `main`) and pushes `main`, which deploys.
