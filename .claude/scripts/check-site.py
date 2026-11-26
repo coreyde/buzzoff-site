@@ -17,6 +17,8 @@ Checks every published .html page (what build-pages.sh copies into public/):
 - canonicals are each page's final URL; sitemap.xml lists every indexable
   page's canonical, and nothing else; llms.txt links resolve without redirects
 - WARN while a guide still says it's awaiting Corey's review
+- WARN where body text splits a number and its unit with a plain space
+  (the site writes 95&nbsp;mg; legal page bodies are left as they are)
 - build-pages.sh builds, puts every checked page in its output and leaves out
   .claude/, dotfiles, Markdown files and CNAME
 """
@@ -40,6 +42,9 @@ STORE_RE = re.compile(
 )
 
 errors, warnings = [], []
+UNIT_SPLIT = re.compile(
+    r"\d (?:mg|ml|g|kg|fl oz|oz|fluid ounces?|hours?|minutes?|days?|weeks?|months?|years?|cups?|percent|am|pm)\b"
+)
 
 
 def err(page, msg):
@@ -184,6 +189,10 @@ def main():
             err(rel, "missing Smart App Banner")
         if "review-pending" in src:
             warn(rel, "awaiting Corey's review: set 'Last reviewed' to his approval date and add datePublished/dateModified to the Article JSON-LD before merging")
+        if rel not in ("privacy-policy.html", "terms.html"):
+            body = re.sub(r"<script\b.*?</script>|<[^>]+>", "\n", src[src.find("<body"):], flags=re.S)
+            for m in UNIT_SPLIT.finditer(body):
+                warn(rel, f"number and unit split by a plain space (use &nbsp;): {m.group(0)!r}")
         if "G-HC8N876HCR" not in src:
             err(rel, "missing GA tag")
         for img in p.imgs:

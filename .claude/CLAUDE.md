@@ -26,7 +26,7 @@ The redesign and SEO brief is `.claude/docs/website-brief.md`: read it before pl
 - Google Analytics `G-HC8N876HCR` (gtag) on every page. `assets/js/site.js` sends `app_store_click` with a `placement` parameter for every `a.appstore[data-placement]`. Nothing a visitor types (tool inputs) ever goes to GA, the URL or the console.
 - App Store links are static campaign links: `https://apps.apple.com/app/apple-store/id6746517769?pt=127836285&ct=<code>&mt=8`, with page-level codes only (Apple needs 5 installs per code to show it): `web-home`, `web-guides`, `web-tools`, `web-compare`, `web-other` (FAQ, About, 404, legal, contact).
 - Head, header and footer are copied into each page by hand from `.claude/templates/partials.html`. Keep them identical across pages; the checker fails if they differ.
-- Local tools (stdlib/none to install): `sh .claude/scripts/build-pages.sh` (the Cloudflare build: copies the public files into `public/`), `python3 .claude/scripts/serve.py` (preview server that resolves URLs and redirects like Cloudflare Pages and hides what the build leaves out), `python3 .claude/scripts/check-site.py` (pre-push checks, including a test build), `sh .claude/og/render.sh` (OG images via headless Chrome).
+- Local tools (stdlib/none to install): `sh .claude/scripts/build-pages.sh` (the Cloudflare build: copies the public files into `public/`), `python3 .claude/scripts/serve.py` (preview server that resolves URLs and redirects like Cloudflare Pages and hides what the build leaves out), `python3 .claude/scripts/check-site.py` (pre-push checks, including a test build), `sh .claude/og/render.sh` (OG images via headless Chrome), `node .claude/tests/caffeine-model.test.mjs` (tests for the tools' maths in `assets/js/caffeine-model.js`, which mirrors the app's `lib/gradualPlan.ts`).
 - `.claude/docs/` is git-ignored: strategy docs (the brief, plans) stay on Corey's Mac because the repo is public.
 
 ## Pages and links that must keep working
@@ -60,6 +60,7 @@ The site follows the app's house style (`~/Desktop/buzzoff-final/docs/HEALTH-COP
 - No percentage outcomes, no invented or average figures without a source. The old "average $150/month" line is out.
 - No diagnosing or medical promises ("cure", "detox your body", "addiction" as a diagnosis). Every guide page ends with a short "general information, not medical advice; talk to your doctor if you're pregnant, have a health condition or take medication" note.
 - Keep the warm, encouraging voice.
+- Units: a number, a non-breaking space, then the unit (`95&nbsp;mg`, `200&nbsp;ml`, `5&nbsp;hours`, `12&nbsp;fl&nbsp;oz`), so they never split across lines. Tool output uses `\u00A0`. Plain spaces stay in `<head>` text and JSON-LD. The app deliberately writes "95mg" with no space in its UI; the site deliberately doesn't. `check-site.py` warns on a number and unit split by a plain space.
 
 ## Comparison pages
 
