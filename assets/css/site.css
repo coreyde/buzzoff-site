@@ -1191,6 +1191,8 @@ textarea {
   font-weight: 600;
   padding: 0 var(--s1);
   border-radius: 4px;
+}
+
 /* ---------- Founder note and About ---------- */
 .founder {
   display: grid;
@@ -1225,19 +1227,6 @@ textarea {
 .prose-block h2 {
   margin-top: var(--s8);
 }
-/* Clearly marked stand-in for Corey's own words. Never ships to main. */
-.placeholder {
-  border: 2px dashed var(--orange-ink);
-  border-radius: var(--r-md);
-  background: var(--orange-tint);
-  padding: var(--s4) var(--s6);
-}
-.placeholder strong {
-  display: block;
-  color: var(--orange-ink);
-  margin-bottom: var(--s1);
-}
-
 .section--flush-top {
   padding-top: 0;
 }
