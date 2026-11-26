@@ -12,6 +12,7 @@
 ## Pages
 
 - [Home](https://buzzoffapp.com/): what the app does, with the App Store link
+- [FAQ](https://buzzoffapp.com/faq/): pricing and Pro, Cold Turkey or Gradual, devices, cancelling, privacy
 - [Contact](https://buzzoffapp.com/contact): support email, support@buzzoffapp.com
 
 ## App Store
