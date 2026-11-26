@@ -22,6 +22,8 @@ Checks every published .html page (what build-pages.sh copies into public/):
   the first use has id="cite-n", the Sources list is src-1..src-N in that
   order with a back link to #cite-n, every source is cited, no old-style
   (Author, Year) a.cite links, and no [n] inside JSON-LD
+- WARN on "the table below/above" style references in visible text or in
+  assets/js strings: name and link the part of the page instead
 - WARN while a guide still says it's awaiting Corey's review
 - WARN where body text splits a number and its unit with a plain space
   (the site writes 95&nbsp;mg; legal page bodies are left as they are)
@@ -49,6 +51,9 @@ STORE_RE = re.compile(
 
 OTHER_STORE_RE = re.compile(r"^https://apps\.apple\.com/app/id\d+$")
 
+POSITIONAL = re.compile(
+    r"\b(?:tables?|charts?|graphs?|figures?|lists?|sections?|the one|see)\s+(?:below|above)\b", re.I
+)
 CITE_RE = re.compile(
     r'<sup class="cite"(?: id="cite-(\d+)")?><a href="#src-(\d+)" aria-label="([^"]*)">\[(\d+)\]</a></sup>'
 )
@@ -255,6 +260,8 @@ def main():
             body = re.sub(r"<script\b.*?</script>|<[^>]+>", "\n", src[src.find("<body"):], flags=re.S)
             for m in UNIT_SPLIT.finditer(body):
                 warn(rel, f"number and unit split by a plain space (use &nbsp;): {m.group(0)!r}")
+            for m in POSITIONAL.finditer(html.unescape(body)):
+                warn(rel, f"{m.group(0)!r} points at another part of the page: name and link it instead")
         if "G-HC8N876HCR" not in src:
             err(rel, "missing GA tag")
         for img in p.imgs:
@@ -319,6 +326,14 @@ def main():
     for url in re.findall(r"\((https://buzzoffapp\.com/[^)\s]*)\)", llms):
         if resolve(urlparse(url).path) is None:
             err("llms.txt", f"link does not resolve to a page (or redirects): {url}")
+
+    js_dir = os.path.join(ROOT, "assets", "js")
+    for f in sorted(os.listdir(js_dir)):
+        if f.endswith(".js"):
+            js = open(os.path.join(js_dir, f), encoding="utf-8").read()
+            for m in re.finditer(r'"[^"\n]*"|`[^`]*`|\'[^\'\n]*\'', js):
+                for p in POSITIONAL.finditer(m.group(0)):
+                    warn(f"assets/js/{f}", f"{p.group(0)!r} points at another part of the page: name and link it instead")
 
     check_build(sorted(pages()))
 
