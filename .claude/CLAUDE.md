@@ -8,13 +8,13 @@ The redesign and SEO brief is `.claude/docs/website-brief.md`: read it before pl
 
 ## How it's hosted (read this first)
 
-- Static files on **Cloudflare Pages**, project `buzzoff-site`, built from the repo `github.com/coreyde/buzzoff-site`. Live test URL: `https://buzzoff-site.pages.dev`.
+- Static files on **Cloudflare Pages**, project `buzzoff-site`, built from the repo `github.com/coreyde/buzzoff-site`. Live at `https://buzzoffapp.com` (and `https://buzzoff-site.pages.dev`).
 - **A push to `main` deploys to the live site within minutes.**
 - **Every pushed branch gets a preview deploy** at `https://<branch>.buzzoff-site.pages.dev` (Cloudflare turns `/` and other non-alphanumerics into `-`, e.g. `chore/cloudflare-pages` → `chore-cloudflare-pages.buzzoff-site.pages.dev`). Put the branch's preview URL in every report, after checking it loads.
 - Cloudflare settings (set by Corey): build command `sh .claude/scripts/build-pages.sh`, output directory `public`.
 - **The build script decides what's public.** Cloudflare doesn't run Jekyll; it serves every file in `public/`. `build-pages.sh` copies the repo into `public/` minus anything starting with a dot (`.claude/`, `.git*`), all Markdown files and `CNAME`, and fails if a required page is missing or a private file slips in. Internal notes, plans and specs still go in `.claude/`. A new kind of non-public file needs a rule in `build-pages.sh` (and the matching `published()` in `serve.py`). `public/` is git-ignored.
 - Clean URLs: Cloudflare 308-redirects `/x.html` to `/x` and `/x/index.html` to `/x/`, and `/x` to `/x/` for folders. Canonicals, the sitemap, `llms.txt` and internal links use the final URLs (`/privacy-policy`, `/terms`, `/contact`, `/faq/`, `/guides/<slug>/`); the checker fails on links that redirect. Old `.html` URLs keep working through the redirect. Unknown paths get `404.html` with status 404.
-- Until Corey attaches `buzzoffapp.com` to Cloudflare, the domain is still served by GitHub Pages from `main` (`CNAME` stays in the repo for that; the build leaves it out). The clean URLs above work on both.
+- `buzzoffapp.com` and `www.buzzoffapp.com` are attached to Cloudflare Pages and served from there for most visitors. GitHub Pages stays on until about 28 Nov 2026 while every DNS resolver switches over; then the dev manager turns it off and makes the repo private. Until then `CNAME` stays in the repo (the build leaves it out), and the clean URLs above work on both.
 - The repo is public now and will become private. Until it is, assume everything in it is public: never commit revenue, user data, internal plans, keys or tokens.
 
 ## Stack
@@ -83,7 +83,7 @@ The site follows the app's house style (`~/Desktop/buzzoff-final/docs/HEALTH-COP
 - Before pushing: `python3 .claude/scripts/check-site.py` passes (links, one H1, title/description lengths, canonicals, GA tag, alt text, JSON-LD, campaign links, identical header/footer, sitemap, no redirecting links, the build), and the legal URLs above still work.
 - After pushing a branch: open its preview URL and check the changed pages, the legal URLs and that `/.claude/` and README files return 404.
 - **Push the branch and stop.** Corey reviews it and approves the merge in chat. Only after that explicit approval, the session merges the branch into `main` with a merge commit (`git merge --no-ff`; never force, never rebase `main`) and pushes `main`, which deploys.
-- After the merge: wait for Cloudflare Pages to deploy `main` (and GitHub Pages too, while it still serves `buzzoffapp.com`), then check the live pages (status codes and content), including the legal URLs above. Then delete the merged branch locally and on origin.
+- After the merge: wait for Cloudflare Pages to deploy `main` (and GitHub Pages too, until it's turned off around 28 Nov 2026), then check the live pages (status codes and content), including the legal URLs above. Then delete the merged branch locally and on origin.
 - Without that approval in chat, never merge into or push `main`. Small docs-only changes to `.claude/` go on `main` only when Corey asks for them there.
 - Commits small and conventional. No `Co-Authored-By` trailers or AI mentions.
 
