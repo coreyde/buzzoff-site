@@ -1,0 +1,80 @@
+/* Legal pages only (privacy-policy.html, terms.html).
+   Their body markup still uses the Tailwind utility classes it was written with,
+   and their wording only changes when Corey asks. So instead of touching the
+   markup, this file reproduces exactly the utilities those bodies use, with
+   Tailwind v3's values. Load it after site.css.
+   Two deliberate differences, both for WCAG AA:
+   - text-buzz-muted sits on the card here, so it uses --text-muted-card (7.1:1)
+     instead of #6D6D6D (4.2:1 on the card).
+   - text-buzz-primary links use --orange-ink and are underlined (orange text on
+     the card was about 2:1 and links were told apart by colour alone). */
+
+main {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+main strong,
+main b {
+  font-weight: bolder;
+}
+
+/* Colour */
+.bg-buzz-bg { background-color: var(--bg); }
+.bg-buzz-card { background-color: var(--card); }
+.border-buzz-border { border-color: var(--border); }
+.text-buzz-text { color: var(--text); }
+.text-buzz-muted { color: var(--text-muted-card); }
+.text-buzz-primary {
+  color: var(--orange-ink);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+.hover\:underline:hover { text-decoration: underline; }
+
+/* Type */
+.font-light { font-weight: 300; }
+.font-medium { font-weight: 500; }
+.tracking-tighter { letter-spacing: -0.05em; }
+.text-center { text-align: center; }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+.text-2xl { font-size: 1.5rem; line-height: 2rem; }
+.text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+
+/* Spacing */
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mb-8 { margin-bottom: 2rem; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.p-8 { padding: 2rem; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+.space-y-2 > :not([hidden]) ~ :not([hidden]) { margin-top: 0.5rem; }
+.space-y-3 > :not([hidden]) ~ :not([hidden]) { margin-top: 0.75rem; }
+
+/* Layout and boxes */
+.min-h-screen { min-height: 100vh; }
+.max-w-4xl { max-width: 56rem; }
+.max-w-none { max-width: none; }
+.border { border-width: 1px; }
+.rounded-xl { border-radius: 0.75rem; }
+.inline-flex { display: inline-flex; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.gap-2 { gap: 0.5rem; }
+.h-10 { height: 2.5rem; }
+.w-10 { width: 2.5rem; }
+.object-cover { object-fit: cover; }
+.icon-ios { border-radius: 22%; }
+/* .prose and .prose-gray had no effect (the CDN build had no typography plugin). */
+
+@media (min-width: 640px) {
+  .sm\:px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .sm\:p-12 { padding: 3rem; }
+  .sm\:text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+}
+@media (min-width: 1024px) {
+  .lg\:px-8 { padding-left: 2rem; padding-right: 2rem; }
+}
