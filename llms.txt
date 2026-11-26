@@ -15,6 +15,20 @@
 - [FAQ](https://buzzoffapp.com/faq/): pricing and Pro, Cold Turkey or Gradual, devices, cancelling, privacy
 - [Contact](https://buzzoffapp.com/contact): support email, support@buzzoffapp.com
 
+## Guides
+
+Every figure in the guides links to its source (EFSA, FDA, NHS, USDA, peer-reviewed research).
+
+- [Caffeine guides](https://buzzoffapp.com/guides/): all guides, by topic
+- [How to quit caffeine](https://buzzoffapp.com/guides/how-to-quit-caffeine/): cold turkey or gradually, and what the first days are like
+- [Caffeine withdrawal](https://buzzoffapp.com/guides/caffeine-withdrawal/): symptoms typically start 12–24 hours after the last caffeine and last 2–9 days (Juliano & Griffiths, 2004)
+- [Caffeine withdrawal headache](https://buzzoffapp.com/guides/caffeine-withdrawal-headache/): how long it lasts, what may help, when to get help
+- [Caffeine in drinks](https://buzzoffapp.com/guides/caffeine-in-drinks/): coffee, tea, cola, energy drinks and chocolate, from EFSA and the FDA
+- [Caffeine in decaf](https://buzzoffapp.com/guides/caffeine-in-decaf/): decaf typically has 2 to 15 mg per 8 fl oz cup (FDA)
+- [How long caffeine stays in your system](https://buzzoffapp.com/guides/how-long-does-caffeine-stay-in-your-system/): mean half-life about 5 hours, range 1.5 to 9.5 hours (National Academy of Sciences, 2001)
+- [Caffeine and sleep](https://buzzoffapp.com/guides/caffeine-and-sleep/): when to stop caffeine before bed
+- [Coffee swaps](https://buzzoffapp.com/guides/coffee-swaps/): decaf, tea and caffeine-free drinks
+
 ## App Store
 
 - [Quit Caffeine: Buzz Off](https://apps.apple.com/app/id6746517769): the App Store listing

@@ -1,0 +1,177 @@
+<!--
+  Guide page template. Copy to guides/<slug>/index.html, fill every {{…}} slot, and keep the header/footer
+  identical (python3 .claude/scripts/sync-partials.py). Follow .claude/templates/guide-checklist.md.
+  Campaign code for every App Store link on a guide: ct=web-guides.
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-HC8N876HCR"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-HC8N876HCR");
+    </script>
+
+    <title>{{TITLE ≤60: the question or its answer first, ends with | Buzz Off}}</title>
+    <meta name="description" content="{{DESCRIPTION ≤155: the short answer, with its key figure}}" />
+    <link rel="canonical" href="https://buzzoffapp.com/guides/{{SLUG}}/" />
+    <meta name="apple-itunes-app" content="app-id=6746517769" />
+    <meta name="theme-color" content="#FAF7F2" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icon-32.png" />
+    <link rel="apple-touch-icon" href="/assets/images/icon-180.png" />
+
+    <meta property="og:site_name" content="Buzz Off" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{{TITLE ≤60: the question or its answer first, ends with | Buzz Off}}" />
+    <meta property="og:description" content="{{DESCRIPTION ≤155: the short answer, with its key figure}}" />
+    <meta property="og:url" content="https://buzzoffapp.com/guides/{{SLUG}}/" />
+    <meta property="og:image" content="https://buzzoffapp.com/assets/og/guides.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The Buzz Off capybara waving next to the line: Quit or cut back on caffeine, at your own pace." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{TITLE ≤60: the question or its answer first, ends with | Buzz Off}}" />
+    <meta name="twitter:description" content="{{DESCRIPTION ≤155: the short answer, with its key figure}}" />
+    <meta name="twitter:image" content="https://buzzoffapp.com/assets/og/guides.jpg" />
+
+    <link rel="preload" href="/assets/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+    <script src="/assets/js/site.js" defer></script>
+    <script type="application/ld+json">
+      {{JSON-LD @graph: Article (headline, description, author Person "Corey De Ponte" jobTitle "Founder of Buzz Off",
+        publisher {"@id": "https://buzzoffapp.com/#organization"}, mainEntityOfPage, image og/guides.jpg,
+        datePublished + dateModified = the date Corey approves it), BreadcrumbList (Home > Guides > short title),
+        FAQPage (only the questions shown on the page, answers as plain text)}}
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a class="brand" href="/">
+          <img src="/assets/images/icon-128.webp" alt="" width="32" height="32" />
+          <span>Buzz Off</span>
+        </a>
+        <nav class="site-nav" aria-label="Main">
+          <a href="/guides/">Guides</a>
+          <a href="/faq/">FAQ</a>
+          <a class="btn btn--primary appstore" data-placement="header" href="https://apps.apple.com/app/apple-store/id6746517769?pt=127836285&amp;ct=web-guides&amp;mt=8">Get the app</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <nav class="container container--text breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/guides/">Guides</a></li>
+          <li aria-current="page">{{SHORT TITLE}}</li>
+        </ol>
+      </nav>
+      <article class="container container--text page-body">
+        <header class="guide-header">
+          <h1 class="h1">{{H1: the question, in plain words}}</h1>
+          <!-- Until Corey approves: Last reviewed: <span class="review-pending">awaiting Corey&rsquo;s review</span>
+               After: Last reviewed: <time datetime="YYYY-MM-DD">D Month YYYY</time> (his approval date) -->
+          <p class="byline">By Corey De Ponte, founder of Buzz Off &middot; Last reviewed: <span class="review-pending">awaiting Corey&rsquo;s review</span></p>
+        </header>
+        <section class="short-answer" aria-labelledby="short-answer">
+          <h2 id="short-answer">Short answer</h2>
+          <p>{{Two sentences that answer the question, each figure with an inline cite:
+            (<a class="cite" href="#src-KEY">Author, Year</a>)}}</p>
+        </section>
+        <div class="guide-body">
+        <!-- 3–6 H2 sections named after real follow-up questions. Short paragraphs, lists, a .table-wrap > table.data-table
+             for numbers (add data-table--wide for 3+ columns). Every number, timeline or range gets an inline cite to the
+             Sources list. Link up to the pillar and across to 2–3 sibling guides. -->
+        <h2>{{Follow-up question}}</h2>
+        <p>{{…}}</p>
+        <aside class="in-app" aria-label="In the Buzz Off app">
+          <img src="/assets/images/moods/happy.webp" alt="" width="48" height="48" loading="lazy" />
+          <div><p><strong>{{One line on where the app helps}}</strong> {{Facts about Buzz Off only.}}</p></div>
+        </aside>
+        <h2 id="questions">Questions</h2>
+        <div class="faq">
+            <details>
+              <summary>{{Question}}</summary>
+              <div class="answer"><p>{{Answer with cites}}</p></div>
+            </details>
+            <!-- 3–5 in total; the same questions go in the FAQPage JSON-LD -->
+        </div>
+        <h2 id="related">Related guides</h2>
+        <div class="related">
+          <a href="/guides/{{slug}}/">{{Title}}<span>{{One-line blurb}}</span></a>
+        </div>
+        <section class="sources" aria-labelledby="sources">
+          <h2 id="sources">Sources</h2>
+          <ol>
+            <li id="src-KEY">{{Authors. Title. <i>Journal</i>. Year;vol(issue):pages.}} <a href="{{URL}}">{{URL}}</a></li>
+          </ol>
+        </section>
+        <p class="medical-note">This is general information, not medical advice. Everyone&rsquo;s different: if you&rsquo;re pregnant, have a health condition or take medication, talk to your doctor before changing how much caffeine you have.</p>
+        </div>
+        <div class="cta-band" style="margin-top: var(--s12)">
+          <div class="cta-band__text">
+            <h2 class="h2">Quit or cut back at your own pace</h2>
+            <p class="lead">Buzz Off is free to download, with an optional Pro subscription.</p>
+            <a class="appstore badge-link badge-link--lg" data-placement="guide-{{SLUG}}" href="https://apps.apple.com/app/apple-store/id6746517769?pt=127836285&amp;ct=web-guides&amp;mt=8">
+              <img src="/assets/icons/app-store-badge.svg" alt="Download on the App Store" width="168" height="56" loading="lazy" />
+            </a>
+          </div>
+          <img class="mascot" src="/assets/images/mascot/capybara-waving-360.webp" srcset="/assets/images/mascot/capybara-waving-360.webp 360w, /assets/images/mascot/capybara-waving-720.webp 720w" sizes="220px" alt="" width="360" height="548" loading="lazy" />
+        </div>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-cta">
+          <img class="face" src="/assets/images/moods/neutral.webp" alt="" width="56" height="56" loading="lazy" />
+          <p class="footer-tagline">Quit or cut back on caffeine, at your own pace.</p>
+          <a class="appstore badge-link" data-placement="footer" href="https://apps.apple.com/app/apple-store/id6746517769?pt=127836285&amp;ct=web-guides&amp;mt=8">
+            <img src="/assets/icons/app-store-badge.svg" alt="Download on the App Store" width="144" height="48" loading="lazy" />
+          </a>
+        </div>
+        <nav class="footer-links" aria-label="Footer">
+          <div>
+            <p class="footer-heading">Guides</p>
+            <ul>
+              <li><a href="/guides/how-to-quit-caffeine/">How to quit caffeine</a></li>
+              <li><a href="/guides/caffeine-withdrawal/">Caffeine withdrawal</a></li>
+              <li><a href="/guides/caffeine-in-drinks/">Caffeine in drinks</a></li>
+              <li><a href="/guides/how-long-does-caffeine-stay-in-your-system/">How long caffeine lasts</a></li>
+              <li><a href="/guides/coffee-swaps/">Coffee swaps</a></li>
+              <li><a href="/guides/">All guides</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-heading">Buzz Off</p>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/faq/">FAQ</a></li>
+              <li><a href="/contact">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-heading">Legal</p>
+            <ul>
+              <li><a href="/privacy-policy.html">Privacy policy</a></li>
+              <li><a href="/terms">Terms</a></li>
+            </ul>
+          </div>
+        </nav>
+        <p class="footer-note">General information, not medical advice. <span class="nowrap">&copy; 2026 Buzz Off</span></p>
+      </div>
+    </footer>
+  </body>
+</html>
