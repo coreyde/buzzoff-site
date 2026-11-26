@@ -943,3 +943,252 @@ textarea {
     animation: none !important;
   }
 }
+
+/* ---------- Guides ---------- */
+.breadcrumb {
+  padding-top: var(--s6);
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+}
+.breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s1) var(--s2);
+}
+.breadcrumb li + li::before {
+  content: "›";
+  margin-right: var(--s2);
+}
+.breadcrumb a {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+.guide-header {
+  padding-block: var(--s6) var(--s6);
+}
+.byline {
+  margin-top: var(--s3);
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+}
+.short-answer {
+  background: var(--sage-tint);
+  border-radius: var(--r-md);
+  padding: var(--s4) var(--s6);
+  margin-bottom: var(--s8);
+}
+.short-answer h2 {
+  font-size: var(--fs-caption);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--sage-ink);
+  margin-bottom: var(--s2);
+}
+.short-answer p {
+  font-size: 1.125rem;
+}
+.guide-body {
+  font-size: 1.125rem;
+}
+.guide-body > * + * {
+  margin-top: var(--s4);
+}
+.guide-body h2 {
+  font-size: var(--fs-h2);
+  font-weight: 600;
+  letter-spacing: var(--track-heading);
+  line-height: var(--lh-tight);
+  margin-top: var(--s12);
+}
+.guide-body h3 {
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  margin-top: var(--s8);
+}
+.guide-body ul,
+.guide-body ol {
+  padding-left: 1.4em;
+}
+.guide-body ul {
+  list-style: disc;
+}
+.guide-body ol {
+  list-style: decimal;
+}
+.guide-body li + li {
+  margin-top: var(--s2);
+}
+.guide-body a:not(.btn):not(.badge-link) {
+  color: var(--orange-ink);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+.guide-body a.cite {
+  white-space: nowrap;
+}
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-small);
+}
+.data-table--wide {
+  min-width: 560px;
+}
+.data-table caption {
+  text-align: left;
+  padding: var(--s3) var(--s4) 0;
+  font-weight: 600;
+}
+.data-table th,
+.data-table td {
+  padding: var(--s3) var(--s4);
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+}
+.data-table thead th {
+  font-size: var(--fs-caption);
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.data-table tbody tr:last-child th,
+.data-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.data-table td.num {
+  white-space: nowrap;
+}
+.in-app {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s4);
+  align-items: start;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: var(--s4) var(--s6);
+  font-size: 1rem;
+}
+.in-app img {
+  width: 48px;
+  height: 48px;
+}
+.in-app p + p {
+  margin-top: var(--s2);
+}
+.in-app strong {
+  display: block;
+}
+.sources {
+  font-size: var(--fs-small);
+}
+.sources ol {
+  padding-left: 1.4em;
+  list-style: decimal;
+}
+.sources li {
+  scroll-margin-top: var(--s16);
+}
+.sources li + li {
+  margin-top: var(--s2);
+}
+.sources a {
+  overflow-wrap: anywhere;
+}
+.sources li:target {
+  background: var(--orange-tint);
+  border-radius: var(--r-sm);
+}
+.medical-note {
+  border-left: 4px solid var(--sage);
+  padding: var(--s3) var(--s4);
+  background: var(--bg);
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+}
+.related {
+  display: grid;
+  gap: var(--s3);
+}
+@media (min-width: 640px) {
+  .related {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.related a {
+  display: block;
+  height: 100%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: var(--s4);
+  font-weight: 600;
+  text-decoration: none !important;
+  color: var(--text) !important;
+}
+.related a:hover {
+  border-color: var(--orange-ink);
+}
+.related a span {
+  display: block;
+  margin-top: var(--s1);
+  font-weight: 400;
+  font-size: var(--fs-small);
+  color: var(--text-muted-card);
+}
+.guide-list {
+  display: grid;
+  gap: var(--s3);
+}
+.guide-list a {
+  display: block;
+  padding: var(--s4) var(--s6);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  font-weight: 600;
+}
+.guide-list a:hover {
+  border-color: var(--orange-ink);
+}
+.guide-list a span {
+  display: block;
+  margin-top: var(--s1);
+  font-weight: 400;
+  font-size: var(--fs-small);
+  color: var(--text-muted-card);
+}
+.cluster + .cluster {
+  margin-top: var(--s12);
+}
+.cluster h2 {
+  margin-bottom: var(--s4);
+}
+
+/* Narrow phones: keep the header on one line (the icon still links home). */
+@media (max-width: 399px) {
+  .brand span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+  .site-nav {
+    gap: var(--s3);
+  }
+}
+.review-pending {
+  background: var(--orange-tint);
+  color: var(--orange-ink);
+  font-weight: 600;
+  padding: 0 var(--s1);
+  border-radius: 4px;
+}
