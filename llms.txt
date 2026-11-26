@@ -35,5 +35,5 @@ Every figure in the guides links to its source (EFSA, FDA, NHS, USDA, peer-revie
 
 ## Legal
 
-- [Privacy policy](https://buzzoffapp.com/privacy-policy.html): what the app and the website collect and why
+- [Privacy policy](https://buzzoffapp.com/privacy-policy): what the app and the website collect and why
 - [Terms and conditions](https://buzzoffapp.com/terms): terms for using the app
